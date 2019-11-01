@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	var a, b int
+	var a, b float32
 	Menu := 0
 
 	for Menu != 5 {
@@ -42,18 +42,18 @@ func main() {
 	}
 }
 
-func tambah(a, b int) int {
+func tambah(a, b float32) float32 {
 	return a + b
 }
 
-func kurang(a, b int) int {
+func kurang(a, b float32) float32 {
 	return a - b
 }
 
-func kali(a, b int) int {
+func kali(a, b float32) float32 {
 	return a * b
 }
 
-func bagi(a, b int) int {
+func bagi(a, b float32) float32 {
 	return a / b
 }
