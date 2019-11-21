@@ -17,7 +17,7 @@ func main() {
 		fmt.Scan(&Menu)
 
 		for Menu < 1 || Menu > 5 {
-			fmt.Println("Masukkan menu dengan benar!!")
+			fmt.Println("\nMasukkan menu dengan benar!!")
 			fmt.Print("Masukan Menu : ")
 			fmt.Scan(&Menu)
 		}
@@ -31,13 +31,13 @@ func main() {
 
 		switch Menu {
 		case 1:
-			fmt.Println("Hasilnya adalah : ", tambah(a, b))
+			fmt.Println("Hasilnya adalah : ", tambah(a, b), "\n")
 		case 2:
-			fmt.Println("Hasilnya adalah : ", kurang(a, b))
+			fmt.Println("Hasilnya adalah : ", kurang(a, b), "\n")
 		case 3:
-			fmt.Println("Hasilnya adalah : ", kali(a, b))
+			fmt.Println("Hasilnya adalah : ", kali(a, b), "\n")
 		case 4:
-			fmt.Println("Hasilnya adalah : ", bagi(a, b))
+			fmt.Println("Hasilnya adalah : ", bagi(a, b), "\n")
 		}
 	}
 }
