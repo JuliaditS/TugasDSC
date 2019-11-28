@@ -6,100 +6,170 @@ import (
 	"os"
 )
 
-type User struct {
+type Pengguna struct {
 	nim      string
 	password string
 	nama     string
 }
 
-type MenuPilihan interface {
-	TampilData()
-}
-
 var scanner = bufio.NewReader(os.Stdin)
-var listUser = []User{}
+var listPengguna = []Pengguna{}
+var menu int
 
 func main() {
-	var menu MenuPilihan
-	var NIM, Password, Nama string
-	Menu := 0
-
-	for Menu != 7 {
-		fmt.Println("\n\nMenu Pilihan")
-		fmt.Println("")
-		fmt.Println("1. Tambah data")
-		fmt.Println("2. lihat data")
-		fmt.Println("3. Hapus data")
-		fmt.Println("4. Ubah data")
-		fmt.Println("5. Cari data")
-		fmt.Println("6. Login")
-		fmt.Println("7. Keluar")
-		fmt.Print("Masukkan Menu : ")
-		fmt.Scan(&Menu)
-		fmt.Println("\n")
-
-		for Menu < 1 || Menu > 7 {
-			fmt.Println("\nMasukkan menu dengan benar!!")
-			fmt.Print("Masukan Menu : ")
-			fmt.Scan(&Menu)
-			fmt.Println("\n")
-		}
-
-		switch Menu {
+	for menu != 7 {
+		inputMenu()
+		switch menu {
 		case 1:
-			fmt.Print("Masukkan Nim: ")
-			NIM, _ = scanner.ReadString('\n')
+			TampilData()
+		case 2:
+			tambahData()
+		case 3:
+			deleteData()
+		case 4:
+			updateData()
+		case 5:
+			cariData()
+		case 6:
+			login()
+		case 7:
+			fmt.Println("Selamat jalan ~")
+		default:
+			fmt.Println("Menu yang dimasukkan tidak tersedia ~")
+		}
+	}
+}
 
-			fmt.Print("Masukkan Password: ")
-			Password, _ = scanner.ReadString('\n')
+func inputMenu() {
+	fmt.Println("\n1. Lihat data")
+	fmt.Println("2. Tambah data")
+	fmt.Println("3. Hapus data")
+	fmt.Println("4. Ubah data")
+	fmt.Println("5. Cari data")
+	fmt.Println("6. Login  ")
+	fmt.Println("7. Keluar")
+	fmt.Print("Masukkan menu yang dipilih: ")
+	fmt.Scanln(&menu)
+	fmt.Println("\n")
+}
+
+func TampilData() {
+	for _, pengguna := range listPengguna {
+		fmt.Print("NIM : ", pengguna.nim)
+		fmt.Print("NAMA : ", pengguna.nama)
+		fmt.Println("PASSWORD : ", pengguna.password)
+	}
+}
+
+func tambahData() {
+	fmt.Print("Masukkan Nim: ")
+	nim, _ := scanner.ReadString('\n')
+	fmt.Print("Masukkan Password: ")
+	password, _ := scanner.ReadString('\n')
+	fmt.Print("Masukkan Nama: ")
+	nama, _ := scanner.ReadString('\n')
+
+	penggunaBaru := Pengguna{nim, password, nama}
+	listPengguna = append(listPengguna, penggunaBaru)
+}
+
+func deleteData() {
+	fmt.Print("Masukkan Nim: ")
+	nim, _ := scanner.ReadString('\n')
+
+	ketemu := false
+	for index, pengguna := range listPengguna {
+		if pengguna.nim == nim {
+			listPengguna = append(listPengguna[:index], listPengguna[index+1:]...)
+			ketemu = true
+			break
+		}
+	}
+
+	if ketemu {
+		TampilData()
+	} else {
+		fmt.Print("Tidak ketemu")
+	}
+}
+
+func updateData() {
+	fmt.Print("Masukkan Nim: ")
+	nim, _ := scanner.ReadString('\n')
+
+	ketemu := false
+	for index, pengguna := range listPengguna {
+		if pengguna.nim == nim {
 
 			fmt.Print("Masukkan Nama: ")
-			Nama, _ = scanner.ReadString('\n')
+			nama, _ := scanner.ReadString('\n')
+			fmt.Print("Masukkan Password: ")
+			password, _ := scanner.ReadString('\n')
 
-			newUser := User{NIM, Password, Nama}
-			listUser = append(listUser, newUser)
-			fmt.Println(listUser)
-		case 2:
-			menu = User{NIM, Password, Nama}
-			menu.TampilData()
-		case 3:
-			HapusData()
-		case 4:
-			UbahData()
-		case 5:
-			CariData()
-		case 6:
-			Login()
+			if nama != "" {
+				listPengguna[index].nama = nama
+			}
+
+			if password != "" {
+				listPengguna[index].password = password
+			}
+
+			ketemu = true
+			break
 		}
 	}
-}
 
-func (User) TampilData() {
-	listuser := User{}
-	var NIM, Password, Nama string
-	for _, user := range listUser {
-		listuser = user
-		NIM = listuser.nim
-		Password = listuser.password
-		Nama = listuser.nama
-		fmt.Print("NIM : ", NIM)
-		fmt.Print("NAMA : ", Nama)
-		fmt.Println("PASSWORD : ", Password)
+	if ketemu {
+		TampilData()
+	} else {
+		fmt.Print("Tidak ketemu")
 	}
 }
 
-func HapusData() {
+func cariData() {
+	fmt.Print("Masukkan Nim: ")
+	nim, _ := scanner.ReadString('\n')
 
+	ketemu := false
+	penggunaYangDicari := Pengguna{}
+	for _, pengguna := range listPengguna {
+		if pengguna.nim == nim {
+			penggunaYangDicari = pengguna
+			ketemu = true
+			break
+		}
+	}
+
+	if ketemu {
+		fmt.Print("Nim: ", penggunaYangDicari.nim)
+		fmt.Print("Nama: ", penggunaYangDicari.nama)
+		fmt.Print("Password: ", penggunaYangDicari.password)
+	} else {
+		fmt.Print("Tidak ketemu")
+	}
 }
 
-func UbahData() {
+func login() {
+	fmt.Print("Masukkan Nim: ")
+	nim, _ := scanner.ReadString('\n')
 
-}
+	ketemu := false
+	for _, pengguna := range listPengguna {
+		if pengguna.nim == nim {
+			ketemu = true
+			fmt.Print("Masukkan Password: ")
+			password, _ := scanner.ReadString('\n')
+			if pengguna.password == password {
+				fmt.Println("Sukses login")
+			} else {
+				fmt.Println("Gagal login")
+			}
 
-func CariData() {
+			return
+		}
+	}
 
-}
-
-func Login() {
-
+	if !ketemu {
+		fmt.Println("Pengguna tidak ditemukan")
+	}
 }
