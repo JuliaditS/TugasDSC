@@ -180,18 +180,18 @@ func addGebetan(c *gin.Context) {
 func getAllGebetan(c *gin.Context) {
 	claims := jwt.ExtractClaims(c)
 	var listGebetan Gebetan 
-	var myGebetans []Gebetan = []Gebetan{}
+	// var myGebetans []Gebetan = []Gebetan{}
 	for index, gebetan := range gebetans {
 		if claims[identityKey].(string) == gebetans[index].UserID {
 			listGebetan.UserID = gebetan.UserID
 			listGebetan.Nama = gebetan.Nama
 			listGebetan.Umur = gebetan.Umur
 			listGebetan.Alamat = gebetan.Alamat
-			myGebetans = append(myGebetans, listGebetan)
+			// myGebetans = append(myGebetans, listGebetan)
 		}
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"data":  myGebetans,
+		"data":  listGebetan,
 		"pesan": "Berhasil mendapatkan semua data Gebetan",
 	})
 }
@@ -209,21 +209,21 @@ func deleteGebetan(c *gin.Context) {
 	}
 
 	var listGebetan Gebetan 
-	var myGebetans []Gebetan = []Gebetan{}
+	// var myGebetans []Gebetan = []Gebetan{}
 	for index, gebetan := range gebetans {
 		if claims[identityKey].(string) == gebetans[index].UserID {
 			listGebetan.UserID = gebetan.UserID
 			listGebetan.Nama = gebetan.Nama
 			listGebetan.Umur = gebetan.Umur
 			listGebetan.Alamat = gebetan.Alamat
-			myGebetans = append(myGebetans, listGebetan)
+			// myGebetans = append(myGebetans, listGebetan)
 		}
 	}
 
 	if ketemu {
 		c.JSON(http.StatusOK, gin.H{
 			"pesan":         "Berhasil moveon dari mantan dengan nama " + nama,
-			"data": myGebetans,
+			"data": listGebetan,
 		})
 	} else {
 		c.JSON(http.StatusNotFound, gin.H{
