@@ -127,23 +127,25 @@ func updateData() {
 }
 
 func cariData() {
-	fmt.Print("Masukkan Nim: ")
-	nim, _ := scanner.ReadString('\n')
+	fmt.Print("Masukkan Nama: ")
+	nama, _ := scanner.ReadString('\n')
 
 	ketemu := false
-	penggunaYangDicari := Pengguna{}
+	var penggunaYangDicari  = []Pengguna{}
 	for _, pengguna := range listPengguna {
-		if pengguna.nim == nim {
-			penggunaYangDicari = pengguna
+		if pengguna.nama == nama {
+			penggunaYangDicari = append(penggunaYangDicari, pengguna)
 			ketemu = true
 			break
 		}
 	}
 
 	if ketemu {
-		fmt.Print("Nim: ", penggunaYangDicari.nim)
-		fmt.Print("Nama: ", penggunaYangDicari.nama)
-		fmt.Print("Password: ", penggunaYangDicari.password)
+		for _, pengguna := range listPengguna {
+			fmt.Print("NIM : ", pengguna.nim)
+			fmt.Print("NAMA : ", pengguna.nama)
+			fmt.Println("PASSWORD : ", pengguna.password)
+		}
 	} else {
 		fmt.Print("Tidak ketemu")
 	}
